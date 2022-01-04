@@ -32,21 +32,29 @@ namespace CustomShoutoutsAPI.Controllers
         [HttpGet("{owner}/{username}")]
         public async Task<IActionResult> GetShoutout(string owner, string username)
         {
-            var uobj = (AppUser?)HttpContext.Items["userObj"];
-
             username = username.Replace("@", "").ToLower().Trim();
 
             var key = $"so_{owner}/{username}";
             if (!_cache.TryGetValue<string>(key, out var resp))
             {
+                var cResponse = "";
+
                 var so = await _ctx.ShoutOuts.FirstOrDefaultAsync(p => p.OwnerId == owner && p.Username.ToLower() == username);
-                if (so == null && uobj == null) return NotFound();
+                if (so == null)
+                {
+                    var uobj = await _ctx.Users.FirstOrDefaultAsync(p => p.Id == owner);
+                    if (uobj == null) return NotFound();
+
+                    cResponse = uobj.DefaultSO;
+                }
+                else
+                    cResponse = so.Response;
 
                 // Get data
                 var chan = await _ts.GetChannelFromName(username);
                 if (chan == null) return NotFound();
 
-                resp = so?.Response ?? uobj?.DefaultSO ?? "";
+                resp = cResponse;
                 resp = resp.Replace("{user}", chan.ChannelName);
                 resp = resp.Replace("{link}", $"https://twitch.tv/{chan.ChannelLogin}");
                 resp = resp.Replace("{game}", chan.GameName);
