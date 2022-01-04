@@ -3,6 +3,7 @@ using CustomShoutoutsAPI.Data.Models;
 using CustomShoutoutsAPI.DTOs;
 using CustomShoutoutsAPI.Services;
 using CustomShoutoutsAPI.Validators;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace CustomShoutoutsAPI.Controllers
     public class UserController : Controller
     {
         [HttpGet("me")]
+        [Authorize]
         public IActionResult GetMe()
         {
             var user = (AppUser?)HttpContext.Items["userObj"];
