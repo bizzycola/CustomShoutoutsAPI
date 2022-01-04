@@ -21,14 +21,18 @@ namespace CustomShoutoutsAPI.Helpers
         private static async Task AuthHandler(HttpContext context, DataContext ctx, bool doProfCheck = true)
         {
             var user = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var email = context.User.FindFirstValue(ClaimTypes.Email);
             if (user == null)
                 throw new Exception("User not authenticated");
 
-            context.Items.Add("userEmail", email);
-            context.Items.Add("userId", user);
+            var split = user.Split('|');
+            var twitchId = split[^1];
 
-            var userProf = await ctx.Users.FirstOrDefaultAsync(p => p.Id == user);
+            var email = context.User.FindFirstValue(ClaimTypes.Email);
+            
+            context.Items.Add("userEmail", email);
+            context.Items.Add("userId", twitchId);
+
+            var userProf = await ctx.Users.FirstOrDefaultAsync(p => p.Id == twitchId);
             if (userProf == null && doProfCheck) //!context.Request.Path.Value.ToLower().Contains("account/create")
                 throw new Exception("User profile not created");
 
