@@ -14,6 +14,30 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
     {
         private readonly Regex _userRegex = new("^[a-zA-Z0-9_-]*$");
 
+        [GraphQLDescription("Update a shoutout by ID")]
+        public async Task<ShoutOut> UpdateShoutout([Service] IHttpContextAccessor http, UpdateShoutoutInput input)
+        {
+            if (http.HttpContext == null)
+                throw new Exception("HTTP Context not loaded");
+
+            var uid = (string?)http.HttpContext.Items["userId"];
+            if (uid == null) throw new Exception("Not authenticated");
+
+            if (string.IsNullOrEmpty(input.Response) || input.Response.Length < 2 || input.Response.Length > 500)
+                throw new Exception("Shoutout must be between 2 and 500 characters in length.");
+
+            var scope = http.HttpContext.RequestServices.CreateScope();
+            var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+            var existSo = await ctx.ShoutOuts.FirstOrDefaultAsync(p => p.Id == input.Id && p.OwnerId == uid);
+            if (existSo == null) throw new Exception("Shoutout not found");
+
+            existSo.Response = input.Response;
+            await ctx.SaveChangesAsync();
+
+            return existSo;
+        }
+
         [GraphQLDescription("Remove a shoutout beloning to the authenticated user by ID")]
         public async Task<bool> RemoveShoutout([Service] IHttpContextAccessor http, Guid id)
         {
