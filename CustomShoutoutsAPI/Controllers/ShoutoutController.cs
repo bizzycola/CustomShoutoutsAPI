@@ -62,7 +62,7 @@ namespace CustomShoutoutsAPI.Controllers
 
                 _cache.Set(key, resp, new MemoryCacheEntryOptions()
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10)
                 });
             }
 
