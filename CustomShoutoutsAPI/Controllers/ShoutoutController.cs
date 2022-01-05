@@ -35,7 +35,7 @@ namespace CustomShoutoutsAPI.Controllers
             username = username.Replace("@", "").ToLower().Trim();
 
             var key = $"so_{owner}/{username}";
-            if (!_cache.TryGetValue<string>(key, out var resp))
+            if (!_cache.TryGetValue<string>(key, out var resp) || string.IsNullOrEmpty(resp))
             {
                 var cResponse = "";
 
@@ -62,7 +62,7 @@ namespace CustomShoutoutsAPI.Controllers
 
                 _cache.Set(key, resp, new MemoryCacheEntryOptions()
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10)
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5)
                 });
             }
 
