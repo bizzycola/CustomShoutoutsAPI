@@ -57,6 +57,12 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
             var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
             var ias = scope.ServiceProvider.GetRequiredService<IAuditService>();
 
+            try
+            {
+                ctx.Attach(uobj);
+            }
+            catch { }
+
             var newCode = new SignupCode()
             {
                 Code = KeyGenerator.GetUniqueKey(15),
