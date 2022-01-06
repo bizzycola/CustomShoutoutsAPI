@@ -1,4 +1,5 @@
-﻿using CustomShoutoutsAPI.Data;
+﻿using CustomShoutoutsAPI.Auth;
+using CustomShoutoutsAPI.Data;
 using CustomShoutoutsAPI.Data.Models;
 
 namespace CustomShoutoutsAPI.GraphQL.Queries
@@ -8,6 +9,7 @@ namespace CustomShoutoutsAPI.GraphQL.Queries
     {
         [GraphQLDescription("Returns a paged list of the users custom shoutouts")]
         [UsePaging(DefaultPageSize = 100)]
+        [Auth]
         public IQueryable<ShoutOut> GetShoutouts([Service] IHttpContextAccessor http)
         {
             if (http.HttpContext == null) throw new Exception("HTTP Context not loaded");

@@ -1,4 +1,5 @@
-﻿using CustomShoutoutsAPI.Data;
+﻿using CustomShoutoutsAPI.Auth;
+using CustomShoutoutsAPI.Data;
 using CustomShoutoutsAPI.Data.Models;
 using CustomShoutoutsAPI.GraphQL.Inputs;
 using CustomShoutoutsAPI.Services;
@@ -15,6 +16,7 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
         private readonly Regex _userRegex = new("^[a-zA-Z0-9_-]*$");
 
         [GraphQLDescription("Update a shoutout by ID")]
+        [Auth]
         public async Task<ShoutOut> UpdateShoutout([Service] IHttpContextAccessor http, UpdateShoutoutInput input)
         {
             if (http.HttpContext == null)
@@ -39,6 +41,7 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
         }
 
         [GraphQLDescription("Remove a shoutout beloning to the authenticated user by ID")]
+        [Auth]
         public async Task<bool> RemoveShoutout([Service] IHttpContextAccessor http, Guid id)
         {
             if (http.HttpContext == null)
@@ -60,6 +63,7 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
         }
 
         [GraphQLDescription("Create a new shoutout for the authenticated user")]
+        [Auth]
         public async Task<ShoutOut> CreateShoutout([Service] IHttpContextAccessor http, CreateShoutoutInput input)
         {
             if (http.HttpContext == null) 

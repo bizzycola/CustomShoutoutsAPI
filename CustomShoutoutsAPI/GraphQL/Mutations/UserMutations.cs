@@ -1,4 +1,5 @@
-﻿using CustomShoutoutsAPI.Data;
+﻿using CustomShoutoutsAPI.Auth;
+using CustomShoutoutsAPI.Data;
 using CustomShoutoutsAPI.Data.Models;
 using CustomShoutoutsAPI.GraphQL.Inputs;
 using CustomShoutoutsAPI.Services;
@@ -12,6 +13,7 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
     public class UserMutations
     {
         [GraphQLDescription("Update the default shoutout message for the authenticated user")]
+        [Auth]
         public async Task<bool> UpdateDefaultSO([Service] IHttpContextAccessor http, string so)
         {
             if (http.HttpContext == null)

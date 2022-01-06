@@ -1,4 +1,5 @@
-﻿using CustomShoutoutsAPI.Data;
+﻿using CustomShoutoutsAPI.Auth;
+using CustomShoutoutsAPI.Data;
 using CustomShoutoutsAPI.Data.Models;
 using CustomShoutoutsAPI.GraphQL.Inputs;
 using CustomShoutoutsAPI.Services;
@@ -12,6 +13,7 @@ namespace CustomShoutoutsAPI.GraphQL.Queries
     public class UserQueries
     {
         [GraphQLDescription("Return the default shoutout set on the authenticated account")]
+        [Auth]
         public async Task<string> GetDefaultSO([Service] IHttpContextAccessor http)
         {
             if (http.HttpContext == null)

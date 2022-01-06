@@ -1,4 +1,5 @@
-﻿using CustomShoutoutsAPI.Data;
+﻿using CustomShoutoutsAPI.Auth;
+using CustomShoutoutsAPI.Data;
 using CustomShoutoutsAPI.Data.Models;
 using CustomShoutoutsAPI.GraphQL.Inputs;
 using CustomShoutoutsAPI.Helpers;
@@ -11,6 +12,7 @@ namespace CustomShoutoutsAPI.GraphQL.Queries
     {
         [GraphQLDescription("[Admin] List signup codes")]
         [UsePaging]
+        [Auth]
         public IQueryable<SignupCode> GetSignupCodes([Service] IHttpContextAccessor http)
         {
             if (http.HttpContext == null)

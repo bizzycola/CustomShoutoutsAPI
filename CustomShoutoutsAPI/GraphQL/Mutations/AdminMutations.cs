@@ -1,4 +1,5 @@
-﻿using CustomShoutoutsAPI.Data;
+﻿using CustomShoutoutsAPI.Auth;
+using CustomShoutoutsAPI.Data;
 using CustomShoutoutsAPI.Data.Models;
 using CustomShoutoutsAPI.GraphQL.Inputs;
 using CustomShoutoutsAPI.Helpers;
@@ -11,6 +12,7 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
     public class AdminMutations
     {
         [GraphQLDescription("[Admin] Remove an existing invite code")]
+        [Auth]
         public async Task<bool> RemoveSignupCode([Service] IHttpContextAccessor http, string code)
         {
             if (http.HttpContext == null)
@@ -41,6 +43,7 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
         }
 
         [GraphQLDescription("[Admin] Create a new invite code")]
+        [Auth]
         public async Task<SignupCode> CreateSignupCode([Service] IHttpContextAccessor http, CreateSignupCodeInput input)
         {
             if (http.HttpContext == null)
