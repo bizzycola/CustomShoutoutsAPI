@@ -18,13 +18,13 @@ namespace CustomShoutoutsAPI.Data.Models
         /// <summary>
         /// ID of the <see cref="User"/> who created this code
         /// </summary>
-        public AppUser CreatorUser { get; set; } = null!;
+        public AppUser? CreatorUser { get; set; } = null!;
         public string CreatorId { get; set; } = string.Empty;
 
         /// <summary>
         /// The ID of the <see cref="User"/> who used this code
         /// </summary>
-        public AppUser User { get; set; } = null!;
+        public AppUser? User { get; set; } = null!;
 
         /// <summary>
         /// Whether this code has been used
