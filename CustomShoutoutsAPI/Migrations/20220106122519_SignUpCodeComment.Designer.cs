@@ -3,6 +3,7 @@ using System;
 using CustomShoutoutsAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CustomShoutoutsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220106122519_SignUpCodeComment")]
+    partial class SignUpCodeComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,33 +57,6 @@ namespace CustomShoutoutsAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("CustomShoutoutsAPI.Data.Models.AuditLog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("AuditedUserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ObjectId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuditedUserId");
-
-                    b.ToTable("AuditLogs");
                 });
 
             modelBuilder.Entity("CustomShoutoutsAPI.Data.Models.ShoutOut", b =>
@@ -187,15 +162,6 @@ namespace CustomShoutoutsAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TwitchAppToken");
-                });
-
-            modelBuilder.Entity("CustomShoutoutsAPI.Data.Models.AuditLog", b =>
-                {
-                    b.HasOne("CustomShoutoutsAPI.Data.Models.AppUser", "AuditedUser")
-                        .WithMany()
-                        .HasForeignKey("AuditedUserId");
-
-                    b.Navigation("AuditedUser");
                 });
 
             modelBuilder.Entity("CustomShoutoutsAPI.Data.Models.SignupCode", b =>

@@ -40,5 +40,8 @@ namespace CustomShoutoutsAPI.Data.Models
         /// Date this code was created
         /// </summary>
         public DateTime Created { get; set; }
+
+        // Admin comment. Probably set to who this invite is for,
+        public string Comment { get; set; } = string.Empty;
     }
 }

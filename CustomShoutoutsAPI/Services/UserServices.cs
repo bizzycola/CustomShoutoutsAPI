@@ -90,7 +90,8 @@ namespace CustomShoutoutsAPI.Services
                 Code = code,
                 Used = false,
                 Created = DateTime.UtcNow,
-                IsAdmin = admin
+                IsAdmin = admin,
+                Comment = "Initial code"
             };
             if (user != null)
                 signupKey.User = user;

@@ -61,9 +61,11 @@ builder.Services.AddGraphQLServer()
                 .AddQueryType(d => d.Name("Query"))
                     .AddTypeExtension<UserQueries>()
                     .AddTypeExtension<ShoutoutQueries>()
+                    .AddTypeExtension<AdminQueries>()
                 .AddMutationType(d => d.Name("Mutation"))
                     .AddTypeExtension<ShoutoutMutations>()
                     .AddTypeExtension<UserMutations>()
+                    .AddTypeExtension<AdminMutations>()
                 .AddInMemorySubscriptions()
                 .ModifyRequestOptions(m =>
                 {
@@ -98,6 +100,7 @@ services.AddErrorFilter<GraphQLErrorFilter>();
 services.AddScoped<IUserService, UserService>();
 services.AddHostedService<TwitchTokenService>();
 services.AddScoped<ITwitchService, TwitchService>();
+services.AddScoped<IAuditService, AuditService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
