@@ -25,7 +25,9 @@ namespace CustomShoutoutsAPI.GraphQL.Queries
             var scope = http.HttpContext.RequestServices.CreateScope();
             var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
 
-            return ctx.SignupCodes.OrderByDescending(p => p.Created);
+            return ctx.SignupCodes
+                .Include(i => i.User)
+                .OrderByDescending(p => p.Created);
         }
     }
 }
