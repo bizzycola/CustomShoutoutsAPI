@@ -87,6 +87,7 @@ builder.Services.AddGraphQLServer()
                             
                             context.Items.Add("userId", twitchId);
                             context.Items.Add("userEmail", email);
+                            context.Items.Add("userObj", await ctx.Users.FirstOrDefaultAsync(p => p.Id == twitchId));
                             isAuthed = true;
                         }
                         catch { }
