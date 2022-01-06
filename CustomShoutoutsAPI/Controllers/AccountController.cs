@@ -64,7 +64,7 @@ namespace CustomShoutoutsAPI.Controllers
                 var userId = split[^1];
 
                 // validate signup code
-                var scode = await _ctx.SignupCodes.FirstOrDefaultAsync(p => p.Code == dto.SignupCode);
+                var scode = await _ctx.SignupCodes.FirstOrDefaultAsync(p => p.Code == dto.SignupCode && !p.Used);
                 if (scode == null) throw new Exception("Invalid signup code");
 
                 scode.Used = true;
