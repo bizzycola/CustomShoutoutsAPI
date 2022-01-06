@@ -1,5 +1,6 @@
 using CustomShoutoutsAPI.BackgroundServices;
 using CustomShoutoutsAPI.Data;
+using CustomShoutoutsAPI.GraphQL;
 using CustomShoutoutsAPI.GraphQL.Mutations;
 using CustomShoutoutsAPI.GraphQL.Queries;
 using CustomShoutoutsAPI.Helpers;
@@ -92,6 +93,7 @@ builder.Services.AddGraphQLServer()
                     })
                 .AddApolloTracing();
 //.AddSocketSessionInterceptor<SubscriptionAuthMiddleware>(); ;
+services.AddErrorFilter<GraphQLErrorFilter>();
 
 services.AddScoped<IUserService, UserService>();
 services.AddHostedService<TwitchTokenService>();
