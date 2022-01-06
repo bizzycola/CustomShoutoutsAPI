@@ -11,7 +11,7 @@ namespace CustomShoutoutsAPI.GraphQL.Queries
     {
         [GraphQLDescription("[Admin] List signup codes")]
         [UsePaging]
-        public IQueryable GetSignupCodes([Service] IHttpContextAccessor http)
+        public IQueryable<SignupCode> GetSignupCodes([Service] IHttpContextAccessor http)
         {
             if (http.HttpContext == null)
                 throw new Exception("HTTP Context not loaded");
