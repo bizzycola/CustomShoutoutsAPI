@@ -12,7 +12,6 @@ namespace CustomShoutoutsAPI.GraphQL.Queries
     public class AdminQueries
     {
         [GraphQLDescription("[Admin] Return site statistics")]
-        [UsePaging]
         [Auth]
         public async Task<SiteStatsResult> GetSiteStats([Service] IHttpContextAccessor http)
         {
