@@ -73,7 +73,7 @@ namespace CustomShoutoutsAPI.GraphQL.Queries
             if (!string.IsNullOrEmpty(filter))
             {
                 return ctx.Users
-                    .Where(c => EF.Functions.Like(c.Username, $"%{filter}%"))
+                    .Where(c => EF.Functions.Like(c.Username.ToUpper(), $"%{filter.ToUpper()}%"))
                     .OrderBy(p => p.Username);
             }
             else
