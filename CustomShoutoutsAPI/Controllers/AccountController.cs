@@ -93,7 +93,7 @@ namespace CustomShoutoutsAPI.Controllers
                 var prof = new AppUser()
                 {
                     Id = userId,
-                    // Email = email, // Decided I probably don't need this
+                    Email = "", // Decided I probably don't need this
                     Username = twitchData.DisplayName,
                     AvatarUrl = twitchData.AvatarUrl,
                     IsAdmin = scode.IsAdmin,
