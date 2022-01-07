@@ -54,5 +54,30 @@ namespace CustomShoutoutsAPI.GraphQL.Queries
                 .Include(i => i.User)
                 .OrderByDescending(p => p.Created);
         }
+
+        [GraphQLDescription("[Admin] List signup codes")]
+        [UsePaging]
+        [Auth]
+        public IQueryable<AppUser> GetUserList([Service] IHttpContextAccessor http, string? filter)
+        {
+            if (http.HttpContext == null)
+                throw new Exception("HTTP Context not loaded");
+
+            var uobj = (AppUser?)http.HttpContext.Items["userObj"];
+            if (uobj == null) throw new Exception("Not authenticated");
+            if (!uobj.IsAdmin) throw new Exception("Not authorized");
+
+            var scope = http.HttpContext.RequestServices.CreateScope();
+            var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+            if (!string.IsNullOrEmpty(filter))
+            {
+                return ctx.Users
+                    .Where(p => p.Username.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                    .OrderBy(p => p.Username);
+            }
+            else
+                return ctx.Users.OrderBy(p => p.Username);
+        }
     }
 }

@@ -98,6 +98,7 @@ namespace CustomShoutoutsAPI.Controllers
                     AvatarUrl = twitchData.AvatarUrl,
                     IsAdmin = scode.IsAdmin,
                     DefaultSO = "Hey, checkout {user} at {link}! They were last seen playing {game}",
+                    MaxAllowedShoutouts = 25,
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow,
                 };

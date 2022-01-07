@@ -1,3 +1,4 @@
+using CustomShoutoutsAPI.Auth;
 using CustomShoutoutsAPI.BackgroundServices;
 using CustomShoutoutsAPI.Data;
 using CustomShoutoutsAPI.GraphQL;
@@ -94,8 +95,9 @@ builder.Services.AddGraphQLServer()
 
                         context.Items.Add("isAuthed", isAuthed);
                     })
-                .AddApolloTracing();
-//.AddSocketSessionInterceptor<SubscriptionAuthMiddleware>(); ;
+                .AddApolloTracing()
+                .AddSocketSessionInterceptor<SubscriptionAuthMiddleware>();
+
 services.AddErrorFilter<GraphQLErrorFilter>();
 
 services.AddScoped<IUserService, UserService>();

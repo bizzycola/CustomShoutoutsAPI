@@ -10,6 +10,7 @@ namespace CustomShoutoutsAPI.Data
         public DbSet<TwitchAppToken> TwitchAppToken { get; set; }
         public DbSet<ShoutOut> ShoutOuts { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)

@@ -72,6 +72,9 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
             var uid = (string?)http.HttpContext.Items["userId"];
             if (uid == null) throw new Exception("Not authenticated");
 
+            var uobj = (AppUser?)http.HttpContext.Items["userObj"];
+            if (uobj == null) throw new Exception("Not authenticated");
+
             if (string.IsNullOrEmpty(input.Username) || !_userRegex.IsMatch(input.Username))
                 throw new Exception("Inproper twitch username");
 
@@ -86,6 +89,10 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
             // See if we have an SO already
             var existSo = await ctx.ShoutOuts.FirstOrDefaultAsync(p => p.OwnerId == uid && p.Username.ToLower() == input.Username.ToLower().Trim());
             if (existSo != null) throw new Exception("You have already created a shoutout for this user.");
+
+            var soCount = await ctx.ShoutOuts.CountAsync(p => p.OwnerId == uid);
+            if (soCount >= uobj.MaxAllowedShoutouts)
+                throw new Exception($"You've reached your total account limit of {uobj.MaxAllowedShoutouts} custom shoutouts.");
 
             // Check if we have mem for channel data
             var cdkey = $"chandat_{uid}_{input.Username.Trim().ToLower()}";

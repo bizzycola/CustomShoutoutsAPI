@@ -15,6 +15,8 @@ namespace CustomShoutoutsAPI.Data.Models
 
         public string DefaultSO { get; set; } = string.Empty;
 
+        public int MaxAllowedShoutouts { get; set; }
+
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
     }
