@@ -32,6 +32,7 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
             if (appUser == null) throw new Exception("Not authorized");
 
             appUser.DefaultSO = so;
+            appUser.Updated = DateTime.UtcNow;
             await ctx.SaveChangesAsync();
 
             return true;

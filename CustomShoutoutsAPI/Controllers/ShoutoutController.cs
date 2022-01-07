@@ -48,7 +48,12 @@ namespace CustomShoutoutsAPI.Controllers
                     cResponse = uobj.DefaultSO;
                 }
                 else
+                {
                     cResponse = so.Response;
+
+                    so.Uses++;
+                    _ = _ctx.SaveChangesAsync();
+                }
 
                 // Get data
                 var chan = await _ts.GetChannelFromName(username);

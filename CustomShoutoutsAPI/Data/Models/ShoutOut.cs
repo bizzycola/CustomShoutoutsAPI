@@ -15,6 +15,8 @@ namespace CustomShoutoutsAPI.Data.Models
 
         public string Avatar { get; set; } = string.Empty;
 
+        public long Uses { get; set; }
+
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
     }
