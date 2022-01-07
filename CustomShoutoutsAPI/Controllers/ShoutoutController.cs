@@ -49,7 +49,7 @@ namespace CustomShoutoutsAPI.Controllers
                 }
                 else
                 {
-                    cResponse = so.Response;
+                    cResponse = so.Response.Replace("{count}", $"{so.Uses}");
 
                     so.Uses++;
                     so.LastCall = DateTime.UtcNow;
@@ -68,7 +68,7 @@ namespace CustomShoutoutsAPI.Controllers
 
                 _cache.Set(key, resp, new MemoryCacheEntryOptions()
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5)
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(2)
                 });
             }
 
