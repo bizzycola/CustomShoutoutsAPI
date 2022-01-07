@@ -52,6 +52,7 @@ namespace CustomShoutoutsAPI.Controllers
                     cResponse = so.Response;
 
                     so.Uses++;
+                    so.LastCall = DateTime.UtcNow;
                     _ = _ctx.SaveChangesAsync();
                 }
 
