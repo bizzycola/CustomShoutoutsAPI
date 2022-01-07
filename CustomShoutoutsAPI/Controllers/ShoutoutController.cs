@@ -49,11 +49,11 @@ namespace CustomShoutoutsAPI.Controllers
                 }
                 else
                 {
-                    cResponse = so.Response.Replace("{count}", $"{so.Uses}");
-
                     so.Uses++;
                     so.LastCall = DateTime.UtcNow;
                     _ = _ctx.SaveChangesAsync();
+
+                    cResponse = so.Response.Replace("{count}", $"{so.Uses}");
                 }
 
                 // Get data
