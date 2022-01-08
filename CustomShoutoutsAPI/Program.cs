@@ -20,6 +20,9 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var Configuration = builder.Configuration;
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 services.AddPooledDbContextFactory<DataContext>(options =>
 {
     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));

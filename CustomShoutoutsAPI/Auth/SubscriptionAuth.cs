@@ -117,6 +117,15 @@ namespace CustomShoutoutsAPI.Auth
                     }
                 }
             }
+
+            if(validationFailures != null)
+            {
+                foreach(var excp in validationFailures)
+                {
+                    Console.WriteLine("JWT Error: {0}", excp.Message);
+                }
+            }
+
             return null;
         }
     }
