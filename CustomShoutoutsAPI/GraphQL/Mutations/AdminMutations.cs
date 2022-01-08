@@ -32,6 +32,10 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
             if (user == null) throw new Exception("User not found");
 
             user.MaxAllowedShoutouts = input.MaxShoutouts;
+
+            if(uobj.IsSuperAdmin)
+                user.IsAdmin = input.IsAdmin;
+
             await ctx.SaveChangesAsync();
 
             return true;

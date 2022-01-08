@@ -12,6 +12,7 @@ namespace CustomShoutoutsAPI.Data.Models
         public string AvatarUrl { get; set; } = string.Empty;
 
         public bool IsAdmin { get; set; }
+        public bool IsSuperAdmin { get; set; }
 
         public string DefaultSO { get; set; } = string.Empty;
 
