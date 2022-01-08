@@ -41,7 +41,7 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
                 Level = input.Type,
                 Title = input.Title,
                 Content = input.Message,
-                Created = DateTime.Now
+                Created = DateTime.UtcNow
             };
 
             ctx.UserNotifications.Add(newNotif);
