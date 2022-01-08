@@ -31,10 +31,18 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
             var user = await ctx.Users.FirstOrDefaultAsync(p => p.Id == input.UserId);
             if (user == null) throw new Exception("User not found");
 
+            if (!uobj.IsSuperAdmin && user.Id == uobj.Id)
+                throw new Exception("Only super administrators may modify their own accounts.");
+
             user.MaxAllowedShoutouts = input.MaxShoutouts;
 
-            if(uobj.IsSuperAdmin)
+            if (uobj.IsSuperAdmin)
+            {
+                if (user.IsAdmin != input.IsAdmin && user.Id == uobj.Id)
+                    throw new Exception("Cannot modify own administrator state");
+
                 user.IsAdmin = input.IsAdmin;
+            }
 
             await ctx.SaveChangesAsync();
 
