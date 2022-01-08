@@ -84,12 +84,13 @@ namespace CustomShoutoutsAPI.Auth
                 ValidateAudience = true,
                 ValidAudience = "r2uVt9N7ATg9xcyqJHy8xuomWZaIvY5i",
                 ValidateLifetime = true,
+                NameClaimType = ClaimTypes.NameIdentifier,
 
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKeys = openidconfig.SigningKeys,
             };
 
-            List<Exception> validationFailures = null!;
+            List<Exception> validationFailures = null;
             SecurityToken validatedToken;
             foreach (var validator in Options.SecurityTokenValidators)
             {
@@ -116,7 +117,7 @@ namespace CustomShoutoutsAPI.Auth
                     }
                 }
             }
-            return null!;
+            return null;
         }
     }
 }

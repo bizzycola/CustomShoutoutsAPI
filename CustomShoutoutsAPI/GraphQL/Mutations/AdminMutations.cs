@@ -43,7 +43,9 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
                 Content = input.Message,
                 Created = DateTime.Now
             };
+
             ctx.UserNotifications.Add(newNotif);
+            await ctx.SaveChangesAsync();
 
             await sender.SendAsync($"{input.UserId}_notifSub", newNotif);
 
