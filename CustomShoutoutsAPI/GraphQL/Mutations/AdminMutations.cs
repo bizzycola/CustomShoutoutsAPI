@@ -4,6 +4,7 @@ using CustomShoutoutsAPI.Data.Models;
 using CustomShoutoutsAPI.GraphQL.Inputs;
 using CustomShoutoutsAPI.Helpers;
 using CustomShoutoutsAPI.Services;
+using HotChocolate.Subscriptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CustomShoutoutsAPI.GraphQL.Mutations
@@ -11,6 +12,44 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
     [ExtendObjectType("Mutation")]
     public class AdminMutations
     {
+        [GraphQLDescription("[Admin] Send a toast notification to a user")]
+        [Auth]
+        public async Task<UserNotification> SendUserNotification(
+            [Service] IHttpContextAccessor http,
+            [Service] ITopicEventSender sender,
+            SendUserNotificationInput input)
+        {
+            if (http.HttpContext == null)
+                throw new Exception("HTTP Context not loaded");
+
+            var uobj = (AppUser?)http.HttpContext.Items["userObj"];
+            if (uobj == null) throw new Exception("Not authenticated");
+            if (!uobj.IsAdmin) throw new Exception("Not authorized");
+
+            var scope = http.HttpContext.RequestServices.CreateScope();
+            var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+            var toUser = await ctx.Users.FirstOrDefaultAsync(p => p.Id == input.UserId);
+            if (toUser == null) throw new Exception("To user not found");
+
+            var notifCount = await ctx.UserNotifications.CountAsync(p => p.ForId == input.UserId && !p.Read);
+            if (notifCount > 3) throw new Exception("To user already has 3 pending notifications");
+
+            var newNotif = new UserNotification()
+            {
+                ForId = input.UserId,
+                Level = input.Type,
+                Title = input.Title,
+                Content = input.Message,
+                Created = DateTime.Now
+            };
+            ctx.UserNotifications.Add(newNotif);
+
+            await sender.SendAsync($"{input.UserId}_notifSub", newNotif);
+
+            return newNotif;
+        }
+
         [GraphQLDescription("[Admin] Remove an existing invite code")]
         [Auth]
         public async Task<bool> RemoveSignupCode([Service] IHttpContextAccessor http, string code)

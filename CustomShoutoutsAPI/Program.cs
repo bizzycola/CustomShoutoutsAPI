@@ -4,6 +4,7 @@ using CustomShoutoutsAPI.Data;
 using CustomShoutoutsAPI.GraphQL;
 using CustomShoutoutsAPI.GraphQL.Mutations;
 using CustomShoutoutsAPI.GraphQL.Queries;
+using CustomShoutoutsAPI.GraphQL.Subscriptions;
 using CustomShoutoutsAPI.Helpers;
 using CustomShoutoutsAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -67,6 +68,8 @@ builder.Services.AddGraphQLServer()
                     .AddTypeExtension<ShoutoutMutations>()
                     .AddTypeExtension<UserMutations>()
                     .AddTypeExtension<AdminMutations>()
+                .AddSubscriptionType(d => d.Name("Subscription"))
+                    .AddTypeExtension<NotificationSubscriptions>()
                 .AddInMemorySubscriptions()
                 .ModifyRequestOptions(m =>
                 {
