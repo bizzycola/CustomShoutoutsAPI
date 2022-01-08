@@ -80,7 +80,7 @@ namespace CustomShoutoutsAPI.Auth
             Options.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,
-                ValidIssuer = "https://bizzylive.us.auth0.com",
+                ValidIssuer = "https://bizzylive.us.auth0.com/",
                 ValidateAudience = true,
                 ValidAudience = "r2uVt9N7ATg9xcyqJHy8xuomWZaIvY5i",
                 ValidateLifetime = true,
