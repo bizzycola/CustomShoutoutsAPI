@@ -12,6 +12,31 @@ namespace CustomShoutoutsAPI.GraphQL.Mutations
     [ExtendObjectType("Mutation")]
     public class AdminMutations
     {
+        [GraphQLDescription("[Admin] Update a user")]
+        [Auth]
+        public async Task<bool> UpdateUserInput([Service] IHttpContextAccessor http, UpdateUserInput input)
+        {
+            if (http.HttpContext == null)
+                throw new Exception("HTTP Context not loaded");
+
+            var uobj = (AppUser?)http.HttpContext.Items["userObj"];
+            if (uobj == null) throw new Exception("Not authenticated");
+            if (!uobj.IsAdmin) throw new Exception("Not authorized");
+
+            if (input.MaxShoutouts < 1 || input.MaxShoutouts > 1000) throw new Exception("Shoutout count must be between 1 and 100");
+
+            var scope = http.HttpContext.RequestServices.CreateScope();
+            var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+            var user = await ctx.Users.FirstOrDefaultAsync(p => p.Id == input.UserId);
+            if (user == null) throw new Exception("User not found");
+
+            user.MaxAllowedShoutouts = input.MaxShoutouts;
+            await ctx.SaveChangesAsync();
+
+            return true;
+        }
+
         [GraphQLDescription("[Admin] Send a toast notification to a user")]
         [Auth]
         public async Task<UserNotification> SendUserNotification(
