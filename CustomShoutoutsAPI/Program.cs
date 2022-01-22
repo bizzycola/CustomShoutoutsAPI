@@ -147,7 +147,8 @@ app.Use(async (context, next) =>
         if (context.Request.Path.Value == null) return;
         if (context.Request.Path.Value.Contains("api/")
             && !context.Request.Path.StartsWithSegments("/api/account")
-            && !context.Request.Path.StartsWithSegments("/api/shoutouts"))
+            && !context.Request.Path.StartsWithSegments("/api/shoutouts")
+            && !context.Request.Path.StartsWithSegments("/api/tid"))
         {
             using var ctx = scope.ServiceProvider.GetRequiredService<IDbContextFactory<DataContext>>().CreateDbContext();
             if (!await AuthHelper.HandleAuth(context, ctx))
